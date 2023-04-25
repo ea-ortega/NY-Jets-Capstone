@@ -1,0 +1,185 @@
+--NFL Draft Profiles
+select *
+from nfl_draft_profiles ndp 
+
+select * 
+from nfl_draft_prospects ndp 
+where draft_year like 2015
+
+---Top players
+select player_name
+,position
+,grade
+,case
+	when (position is 'Tight End') 
+	or (position is 'Wide Receiver') 
+	or (position is 'Offensive Tackle') 
+	or (position is 'Running Back')
+	or (position is 'Quarterback')
+	or (position is 'Offensive Guard')
+	or (position is 'Center')
+	then 'Offense' 
+else 'Defense'
+end as top_player
+from nfl_draft_profiles ndp 
+where (grade > 90 and grade <> 'NA')
+order by grade desc
+
+---Top Offensive player
+select player_name
+,position
+,grade
+,case
+	when (position is 'Tight End') 
+	or (position is 'Wide Receiver') 
+	or (position is 'Offensive Tackle') 
+	or (position is 'Running Back')
+	or (position is 'Quarterback')
+	or (position is 'Offensive Guard')
+	or (position is 'Center')
+	then 'Offense' 
+else 'Defense'
+end as top_player
+from nfl_draft_profiles ndp 
+where (grade > 90 and grade <> 'NA') and top_player = 'Offense'
+order by grade desc
+---Top Defensive player
+select player_name
+,position
+,grade
+,case
+	when (position is 'Tight End') 
+	or (position is 'Wide Receiver') 
+	or (position is 'Offensive Tackle') 
+	or (position is 'Running Back')
+	or (position is 'Quarterback')
+	or (position is 'Offensive Guard')
+	or (position is 'Center')
+	then 'Offense' 
+else 'Defense'
+end as top_player
+from nfl_draft_profiles ndp 
+where (grade > 90 and grade <> 'NA') and top_player = 'Defense'
+order by grade desc
+
+--++++++++++++++++++++++++++++++++++++++++++++++++++
+--Jets 2014 NFL Schedules
+--
+#Jets 2014 Schedule 
+select date,home,score_home,away,score_away 
+from nfl_team_stats nts 
+where (home = 'Jets' or away = 'Jets') and date like '2014%'
+
+
+
+---+++JETS OFFENSE+++---
+#overview Jets rushing / passing / total yards 
+select date,home,score_home,away,score_away,rushing_yards_home,rushing_yards_away, passing_yards_home ,passing_yards_away, total_yards_home,total_yards_away 
+from nfl_team_stats nts 
+where (home = 'Jets' or away = 'Jets') and date like '2014%'
+order by home = 'Jets'desc
+
+---+++JETS Defense+++---
+#overview jets defense
+select date,home,score_home,away,score_away, sacks_home , sacks_away , def_st_td_home as DefTD_Home, def_st_td_away as DefTD_Away,possession_home, possession_away 
+from nfl_team_stats nts 
+where (home = 'Jets' or away = 'Jets') and date like '2014%'
+order by home = 'Jets'desc
+
+--Team Records---
+#home record
+select home, away,
+case 
+when score_home > score_away and home = 'Jets'
+Then 'Win'
+Else 'Loss'
+end as homeWins
+from nfl_team_stats nts 
+where home = 'Jets'and date like '2014%'
+
+#away record
+select home, away,
+case 
+when score_home < score_away 
+Then 'Win'
+Else 'Loss'
+end as awayWins
+from nfl_team_stats nts 
+where away = 'Jets'and date like '2014%'
+
+--record of Jets
+select home, score_home, away,score_away ,
+case 
+when (score_home > score_away and home = 'Jets') Then 'Win'
+WHEN (score_away > score_home and away  ='Jets') then 'Win'
+else 'Loss'
+end as Team_Record
+from nfl_team_stats nts 
+where (home = 'Jets' or away = 'Jets') and date like '2014%'
+
+--record of Bills
+select home, score_home, away,score_away ,
+case 
+when (score_home > score_away and home = 'Bills') Then 'Win'
+WHEN (score_away > score_home and away  ='Bills') then 'Win'
+else 'Loss'
+end as Team_Record
+from nfl_team_stats nts 
+where (home = 'Bills' or away = 'Jets') and date like '2014%'
+-- record of Miami
+select home, score_home, away,score_away ,
+case 
+when (score_home > score_away and home = 'Dolphins') Then 'Win'
+WHEN (score_away > score_home and away  ='Dolphins') then 'Win'
+else 'Loss'
+end as Team_Record
+from nfl_team_stats nts 
+where (home = 'Dolphins' or away = 'Dolphins') and date like '2014%'
+-- record of Patriots
+select home, score_home, away,score_away ,
+case 
+when (score_home > score_away and home = 'Patriots') Then 'Win'
+WHEN (score_away > score_home and away  ='Patriots') then 'Win'
+else 'Loss'
+end as Team_Record
+from nfl_team_stats nts 
+where (home = 'Patriots' or away = 'Patriots') and date like '2014%'
+limit 16
+--++++++++++++++++++++++++++++++++
+--Look Up Average team ticket prices
+--++++++++++++++++++++++++++++++++
+
+SELECT *
+From "2014_average_ticket_price" atp 
+
+--ticket price Jets v Division 2014
+SELECT *
+FROM "2014_average_ticket_price" atp 
+where Event like '%Jets%'
+order by "Avg TP, $" DESC 
+
+-- Bills Ticket average
+SELECT *
+FROM "2014_average_ticket_price" atp 
+where Event like '%Bills%'
+order by "Avg TP, $" DESC 
+--Miami Ticket Average
+SELECT *
+FROM "2014_average_ticket_price" atp 
+where Event like '%Dolphins%'
+order by "Avg TP, $" DESC 
+-- Patriots
+SELECT *
+FROM "2014_average_ticket_price" atp 
+where Event like '%Patriots%'
+order by "Avg TP, $" DESC 
+
+select * from nfl_team_stats nts 
+
+
+
+
+
+
+
+
